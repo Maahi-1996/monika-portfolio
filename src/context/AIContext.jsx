@@ -36,7 +36,7 @@ function preprocessText(raw) {
 const PORTFOLIO_TOUR = [
   { text: "Hi! I am Monika Bhivarkar, a Senior QA Engineer with over 3 years of experience in Automation, AI, UI, and Database testing and performance testing. I specialise in building scalable test automation frameworks and validating AI-driven platforms to deliver zero defect releases.", sectionId: "top" },
   { text: "In my professional career I have worked across exciting domains — AI and HR Tech, EdTech, Telecommunications, and Creator Economy. Let me walk you through my experience.", sectionId: "top" },
-  { text: "At SkillJourney LLP in Pune, I was promoted to Senior QA Engineer in June twenty twenty-five. I lead quality assurance across four major products.", sectionId: "experience", highlightId: "exp-1" },
+  { text: "At SkillJourney LLP in Pune, I was promoted to Senior QA Engineer in June 2025. I lead quality assurance across four major products.", sectionId: "experience", highlightId: "exp-1" },
   { text: "My first project is Career Journey — an Education platform. I built Robot Framework automation suites that improved test stability from 70 to 90 percent and created over 150 comprehensive test cases.", sectionId: "proj-0", highlightId: "proj-0" },
   { text: "My second project is Oye Creators — a brand and creator collaboration marketplace. I executed QA across web, mobile, and backend APIs, testing campaign workflows and creator onboarding.", sectionId: "proj-1", highlightId: "proj-1" },
   { text: "Third is Future Bridge — a college recommendation system. I tested its rule-based logic for CET, NEET, and JEE admissions, validated data extraction pipelines and recommendation accuracy.", sectionId: "proj-2", highlightId: "proj-2" },
@@ -73,34 +73,34 @@ export function AIProvider({ children }) {
     const vs = voicesRef.current;
     if (!vs || vs.length === 0) return null;
 
-    const femaleNames = /zira|heera|heather|sonia|susan|hazel|emily|linda|samantha|karen|tessa|moira|fiona|victoria|female|aria/i;
-
-    // 1. First choice: Microsoft Heera (Windows Indian Female)
+    // 1. Microsoft Heera (Windows Indian Female)
     let voice = vs.find(v => v.name.includes('Heera'));
     if (voice) return voice;
 
-    // 2. Second choice: Google UK English Female (Clear, available on Chrome)
+    // 2. Google UK English Female / Google US English (Very clear on Chrome Desktop)
     voice = vs.find(v => v.name === 'Google UK English Female');
     if (voice) return voice;
+    voice = vs.find(v => v.name === 'Google US English');
+    if (voice) return voice;
 
-    // 3. Third choice: Microsoft Zira or Aria (Windows standard female)
+    // 3. Microsoft Zira or Aria (Windows standard female)
     voice = vs.find(v => v.name.includes('Zira') || v.name.includes('Aria'));
     if (voice) return voice;
 
-    // 4. Any English Female voice (explicitly named female)
-    voice = vs.find(v => v.lang.startsWith('en') && femaleNames.test(v.name));
+    // 4. Android Network Voices (Cloud-based, very natural high-quality human voices)
+    voice = vs.find(v => v.lang.startsWith('en') && v.name.includes('network'));
     if (voice) return voice;
 
-    // 5. Android Chrome fallback: 'en-IN' (Defaults to Indian English, usually female)
-    // Important: We avoid "hi-IN" or "Google हिन्दी" because they sound robotic when reading English.
-    voice = vs.find(v => v.lang === 'en-IN' && !v.name.includes('हिन्दी') && !v.lang.startsWith('hi'));
+    // 5. Any English Female voice
+    voice = vs.find(v => v.lang.startsWith('en') && /female/i.test(v.name));
     if (voice) return voice;
 
-    // 6. Generic US/UK English fallback
+    // 6. Safe standard English voices (avoids robotic default OEM voices like Samsung TTS)
     voice = vs.find(v => v.lang === 'en-US' || v.lang === 'en-GB');
+    if (voice) return voice;
 
     // 7. Absolute fallback
-    return voice || vs.find(v => v.lang.startsWith('en')) || vs[0];
+    return vs.find(v => v.lang.startsWith('en')) || vs[0];
   };
 
   /* ── Speak a single segment and auto-scroll to its section ── */
@@ -163,8 +163,11 @@ export function AIProvider({ children }) {
     const u = new SpeechSynthesisUtterance(preprocessText(text));
     const voice = pickVoice();
     if (voice) u.voice = voice;
-    u.rate = 1.7;   // 1.7× — fast but clear across all browsers
-    u.pitch = 1.1;
+
+    // Adjust rate for mobile to prevent distortion, keep pitch at 1.0 for natural human tone
+    const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    u.rate = isMobile ? 1.3 : 1.7;
+    u.pitch = 1.0;
     u.volume = 1;
     u.onend = () => { if (activeRef.current) onDone(); };
     u.onerror = onDone;
@@ -233,7 +236,7 @@ export function AIProvider({ children }) {
     activeRef.current = false;
     synthRef.current.cancel();
     setIsTourActive(false);
-    
+
     if (id) {
       setHighlightedId(id);
     } else {
@@ -246,7 +249,11 @@ export function AIProvider({ children }) {
       const u = new SpeechSynthesisUtterance(preprocessText(text));
       const voice = pickVoice();
       if (voice) u.voice = voice;
-      u.rate = 1.7; u.pitch = 1.1; u.volume = 1;  // 1.7× — fast but clear across all browsers
+
+      const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      u.rate = isMobile ? 1.3 : 1.7;
+      u.pitch = 1.0;
+      u.volume = 1;
       u.onend = u.onerror = () => {
         activeRef.current = false;
         setIsSpeaking(false);
