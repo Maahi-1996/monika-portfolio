@@ -11,7 +11,7 @@ const experiences = [
     period: 'June 2024 – Present',
     promoted: 'Promoted from QA Engineer → Senior QA Engineer in June 2025',
     color: '#06b6d4',
-    aiText: 'At SkillJourney LLP I was promoted to Senior QA Engineer in June 2025. I lead end-to-end quality assurance across multiple products — an AI Interview platform, an Education Tech platform, a college recommendation system, and an influencer marketing marketplace.',
+    aiText: 'At SkillJourney LLP I was promoted to Senior QA Engineer in June two thousand twenty five. I lead end-to-end quality assurance across multiple products — an AI Interview platform, an Education Tech platform, a college recommendation system, and an influencer marketing marketplace.',
     projects: [
       {
         globalProjId: 'proj-0',

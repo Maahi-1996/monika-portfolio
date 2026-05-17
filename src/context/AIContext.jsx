@@ -223,7 +223,7 @@ export function AIProvider({ children }) {
   /* ── one-shot speak (for individual section buttons) ── */
   const speak = useCallback((text, id = null) => {
     // If it's already speaking the SAME button, clicking it acts as an "OFF" switch
-    if (window.speechSynthesis.speaking && highlightedId === id) {
+    if (isSpeaking && highlightedId === id) {
       activeRef.current = false;
       synthRef.current.cancel();
       setIsTourActive(false);
