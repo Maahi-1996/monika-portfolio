@@ -36,7 +36,7 @@ function preprocessText(raw) {
 const PORTFOLIO_TOUR = [
   { text: "Hi! I am Monika Bhivarkar, a Senior QA Engineer with over 3 years of experience in Automation, AI, UI, and Database testing and performance testing. I specialise in building scalable test automation frameworks and validating AI-driven platforms to deliver zero defect releases.", sectionId: "top" },
   { text: "In my professional career I have worked across exciting domains — AI and HR Tech, EdTech, Telecommunications, and Creator Economy. Let me walk you through my experience.", sectionId: "top" },
-  { text: "At SkillJourney LLP in Pune, I was promoted to Senior QA Engineer in June 2025. I lead quality assurance across four major products.", sectionId: "experience", highlightId: "exp-1" },
+  { text: "At SkillJourney LLP in Pune, I was promoted to Senior QA Engineer in June twenty twenty-five. I lead quality assurance across four major products.", sectionId: "experience", highlightId: "exp-1" },
   { text: "My first project is Career Journey — an Education platform. I built Robot Framework automation suites that improved test stability from 70 to 90 percent and created over 150 comprehensive test cases.", sectionId: "proj-0", highlightId: "proj-0" },
   { text: "My second project is Oye Creators — a brand and creator collaboration marketplace. I executed QA across web, mobile, and backend APIs, testing campaign workflows and creator onboarding.", sectionId: "proj-1", highlightId: "proj-1" },
   { text: "Third is Future Bridge — a college recommendation system. I tested its rule-based logic for CET, NEET, and JEE admissions, validated data extraction pipelines and recommendation accuracy.", sectionId: "proj-2", highlightId: "proj-2" },
