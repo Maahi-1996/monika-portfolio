@@ -61,6 +61,8 @@ export function AIProvider({ children }) {
   const voicesRef = useRef([]);
   const tourIdx = useRef(0);
   const activeRef = useRef(false); // tracks whether tour should continue
+  const utteranceRef = useRef(null); // Prevents Android garbage collection bug
+  const lastClickTime = useRef(0); // Prevents Android double-tap ghost clicks
 
   useEffect(() => {
     const load = () => { voicesRef.current = window.speechSynthesis.getVoices(); };
@@ -222,10 +224,16 @@ export function AIProvider({ children }) {
 
   /* ── one-shot speak (for individual section buttons) ── */
   const speak = useCallback((text, id = null) => {
+    // Prevent ghost clicks/double taps on mobile
+    const now = Date.now();
+    if (now - lastClickTime.current < 400) return;
+    lastClickTime.current = now;
+
     // If it's already speaking the SAME button, clicking it acts as an "OFF" switch
     if (isSpeaking && highlightedId === id) {
       activeRef.current = false;
-      synthRef.current.cancel();
+      window.speechSynthesis.pause(); // Required for Android Chrome to actually stop
+      window.speechSynthesis.cancel();
       setIsTourActive(false);
       setIsSpeaking(false);
       setHighlightedId(null);
@@ -234,7 +242,8 @@ export function AIProvider({ children }) {
 
     // Otherwise, start speaking (and cancel anything else currently playing)
     activeRef.current = false;
-    synthRef.current.cancel();
+    window.speechSynthesis.pause();
+    window.speechSynthesis.cancel();
     setIsTourActive(false);
 
     if (id) {
@@ -247,6 +256,7 @@ export function AIProvider({ children }) {
       activeRef.current = true;
       setIsSpeaking(true);
       const u = new SpeechSynthesisUtterance(preprocessText(text));
+      utteranceRef.current = u; // Keep reference to prevent GC bug on Android
       const voice = pickVoice();
       if (voice) u.voice = voice;
 
@@ -258,14 +268,16 @@ export function AIProvider({ children }) {
         activeRef.current = false;
         setIsSpeaking(false);
         setHighlightedId(null);
+        utteranceRef.current = null;
       };
       synthRef.current.speak(u);
     }, 100);
-  }, [highlightedId]);
+  }, [highlightedId, isSpeaking]);
 
   const stopSpeaking = useCallback(() => {
     activeRef.current = false;
-    synthRef.current.cancel();
+    window.speechSynthesis.pause();
+    window.speechSynthesis.cancel();
     setIsSpeaking(false);
     setIsTourActive(false);
     setHighlightedId(null);
