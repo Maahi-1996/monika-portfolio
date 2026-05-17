@@ -75,29 +75,32 @@ export function AIProvider({ children }) {
 
     const femaleNames = /zira|heera|heather|sonia|susan|hazel|emily|linda|samantha|karen|tessa|moira|fiona|victoria|female|aria/i;
 
-    // 1. Prefer Google en-IN (available in Chrome on deployed sites)
-    const googleIN = vs.find(v => v.name === 'Google हिन्दी' || v.name === 'Google UK English Female' ||
-      (v.name.toLowerCase().includes('google') && v.lang === 'en-IN'));
-    if (googleIN) return googleIN;
+    // 1. First choice: Microsoft Heera (Windows Indian Female)
+    let voice = vs.find(v => v.name.includes('Heera'));
+    if (voice) return voice;
 
-    // 2. Microsoft Heera / Aria (en-IN) — Windows local & Edge
-    const msIN = vs.find(v => v.lang === 'en-IN' && femaleNames.test(v.name));
-    if (msIN) return msIN;
+    // 2. Second choice: Google UK English Female (Clear, available on Chrome)
+    voice = vs.find(v => v.name === 'Google UK English Female');
+    if (voice) return voice;
 
-    // 3. Any en-IN voice
-    const anyIN = vs.find(v => v.lang === 'en-IN');
-    if (anyIN) return anyIN;
+    // 3. Third choice: Microsoft Zira or Aria (Windows standard female)
+    voice = vs.find(v => v.name.includes('Zira') || v.name.includes('Aria'));
+    if (voice) return voice;
 
-    // 4. Google UK English Female (clear, widely available in Chrome)
-    const googleUK = vs.find(v => v.name === 'Google UK English Female');
-    if (googleUK) return googleUK;
+    // 4. Any English Female voice (explicitly named female)
+    voice = vs.find(v => v.lang.startsWith('en') && femaleNames.test(v.name));
+    if (voice) return voice;
 
-    // 5. Any English female voice
-    const enFemale = vs.find(v => v.lang.startsWith('en') && femaleNames.test(v.name));
-    if (enFemale) return enFemale;
+    // 5. Android Chrome fallback: 'en-IN' (Defaults to Indian English, usually female)
+    // Important: We avoid "hi-IN" or "Google हिन्दी" because they sound robotic when reading English.
+    voice = vs.find(v => v.lang === 'en-IN' && !v.name.includes('हिन्दी') && !v.lang.startsWith('hi'));
+    if (voice) return voice;
 
-    // 6. Any English voice as last resort
-    return vs.find(v => v.lang.startsWith('en')) || null;
+    // 6. Generic US/UK English fallback
+    voice = vs.find(v => v.lang === 'en-US' || v.lang === 'en-GB');
+
+    // 7. Absolute fallback
+    return voice || vs.find(v => v.lang.startsWith('en')) || vs[0];
   };
 
   /* ── Speak a single segment and auto-scroll to its section ── */
