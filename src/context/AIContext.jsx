@@ -160,8 +160,8 @@ export function AIProvider({ children }) {
     const u = new SpeechSynthesisUtterance(preprocessText(text));
     const voice = pickVoice();
     if (voice) u.voice = voice;
-    u.rate = 1.05;  // Natural speed — consistent across all browsers & OS
-    u.pitch = 1.1;  // Slightly warm/feminine without being artificial
+    u.rate = 2.5;   // 2.5× speed as preferred
+    u.pitch = 1.1;
     u.volume = 1;
     u.onend = () => { if (activeRef.current) onDone(); };
     u.onerror = onDone;
@@ -243,7 +243,7 @@ export function AIProvider({ children }) {
       const u = new SpeechSynthesisUtterance(preprocessText(text));
       const voice = pickVoice();
       if (voice) u.voice = voice;
-      u.rate = 1.05; u.pitch = 1.1; u.volume = 1;  // Consistent natural speed across browsers
+      u.rate = 2.5; u.pitch = 1.1; u.volume = 1;  // 2.5× speed as preferred
       u.onend = u.onerror = () => {
         activeRef.current = false;
         setIsSpeaking(false);
