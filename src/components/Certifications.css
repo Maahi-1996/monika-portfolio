@@ -1,0 +1,113 @@
+.certs-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Main cert card — now has expandable content below */
+.cert-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* The always-visible top row */
+.cert-main-row {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 1.5rem;
+}
+
+.cert-icon-wrap {
+  flex-shrink: 0;
+  background: rgba(109, 40, 217, 0.15);
+  color: #c4b5fd;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cert-info {
+  flex: 1;
+}
+
+.cert-info h3 {
+  font-size: 1rem;
+  color: var(--text-primary);
+  margin-bottom: 3px;
+  font-weight: 600;
+}
+
+.cert-code {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+}
+
+/* Actions: AI Explain + chevron toggle */
+.cert-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+/* Chevron toggle button */
+.toggle-cert-btn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--card-border);
+  color: var(--text-secondary);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-cert-btn:hover {
+  background: rgba(6, 182, 212, 0.12);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+/* Expandable certificate image area */
+.cert-image-wrap {
+  padding: 0 1.5rem 1.5rem;
+  animation: expandIn 0.3s ease;
+}
+
+.cert-image {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  object-fit: contain;
+  max-height: 420px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes expandIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+  .cert-main-row {
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
+  .cert-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}

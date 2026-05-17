@@ -1,0 +1,219 @@
+/* ══════════════════════════════════════════════════════
+   AI PRESENTER PANEL — Fixed LEFT, BIG character, no popup
+══════════════════════════════════════════════════════ */
+
+.ai-presenter {
+  position: fixed;
+  bottom: 0;
+  top: 80px;
+  left: 2%;
+  z-index: 998;
+  width: 380px;
+  min-width: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Everything inside that is interactive re-enables pointer events */
+.ai-presenter * { pointer-events: all; }
+
+/* ── Toggle label ── */
+.ai-toggle-label {
+  background: rgba(8, 9, 20, 0.82);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 0.72rem;
+  color: var(--accent-cyan);
+  cursor: pointer;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  backdrop-filter: blur(8px);
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.ai-presenter.ai-speaking .ai-toggle-label {
+  border-color: var(--accent-cyan);
+  background: rgba(6, 182, 212, 0.1);
+}
+
+.ai-toggle-label:hover {
+  background: rgba(6, 182, 212, 0.15);
+}
+
+/* ── Character wrap (clickable) ── */
+.ai-char-wrap {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;                       /* take up all available height in the presenter */
+  width: 100%;
+  justify-content: flex-end;     /* pin to bottom */
+}
+
+/* Body & Head animation layers - must pass height through */
+.ai-body-anim,
+.ai-head-anim {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Image ── */
+.ai-char-img {
+  width: auto;
+  height: auto;
+  max-height: calc(100vh - 90px);  /* full height minus navbar, full body visible */
+  max-width: 360px;
+  display: block;
+  object-fit: contain;
+  object-position: bottom;
+  mix-blend-mode: normal;
+  transform-origin: bottom center;
+  pointer-events: none;
+}
+
+
+/* ═══════════════════════════════
+   ANIMATIONS REMOVED
+   User requested absolutely no shaking or movement
+═══════════════════════════════ */
+.ai-presenter.ai-idle .ai-body-anim,
+.ai-presenter.ai-idle .ai-head-anim,
+.ai-presenter.ai-speaking .ai-body-anim,
+.ai-presenter.ai-speaking .ai-head-anim {
+  /* All shaking and bobbing animations completely removed */
+  transform: none;
+  animation: none;
+}
+
+/* Glow on image/video when speaking, hugs the alpha contours natively! */
+.ai-presenter.ai-speaking .ai-char-img {
+  filter:
+    drop-shadow(0 0 14px rgba(6,182,212,0.4))
+    drop-shadow(0 8px 20px rgba(0,0,0,0.2));
+}
+
+/* ── Wave bars at feet ── */
+.ai-wave-feet {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3px;
+  height: 22px;
+  margin-top: -6px;
+}
+
+.ai-wave-feet span {
+  display: block;
+  width: 4px;
+  border-radius: 3px;
+  background: linear-gradient(to top, var(--accent-neon), var(--accent-cyan));
+  animation: waveBar 0.48s ease-in-out infinite alternate;
+}
+
+.ai-wave-feet span:nth-child(1) { height: 5px;  animation-delay: 0.00s; }
+.ai-wave-feet span:nth-child(2) { height: 10px; animation-delay: 0.06s; }
+.ai-wave-feet span:nth-child(3) { height: 18px; animation-delay: 0.12s; }
+.ai-wave-feet span:nth-child(4) { height: 22px; animation-delay: 0.18s; }
+.ai-wave-feet span:nth-child(5) { height: 18px; animation-delay: 0.12s; }
+.ai-wave-feet span:nth-child(6) { height: 10px; animation-delay: 0.06s; }
+.ai-wave-feet span:nth-child(7) { height: 5px;  animation-delay: 0.00s; }
+
+@keyframes waveBar {
+  from { transform: scaleY(0.2); opacity: 0.35; }
+  to   { transform: scaleY(1);   opacity: 1; }
+}
+
+/* ── Tiny speaking label ── */
+.ai-speaking-label {
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  margin-top: 2px;
+  letter-spacing: 0.05em;
+  opacity: 0.8;
+  animation: blink 1.2s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+
+/* ── Mobile AI Icon Styling ── */
+.ai-mobile-icon {
+  display: none;
+}
+
+/* ── Mobile & Tablet Responsiveness ── */
+@media (max-width: 1024px) {
+  .ai-presenter {
+    left: -20px;
+    transform: scale(0.8);
+    bottom: -5vh;
+  }
+}
+
+@media (max-width: 900px) {
+  /* Hide the 3D character entirely */
+  .ai-char-img {
+    display: none;
+  }
+  
+  /* Show the floating AI speaker icon instead */
+  .ai-mobile-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent-neon), var(--accent-cyan));
+    color: white;
+    filter: drop-shadow(0 4px 15px rgba(6, 182, 212, 0.4));
+    cursor: pointer;
+    pointer-events: auto; /* Since presenter container has pointer-events: none */
+  }
+  
+  .ai-mobile-icon svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  /* Make it pulse when speaking */
+  .ai-presenter.ai-speaking .ai-mobile-icon {
+    animation: continuousPulse 1.5s infinite alternate ease-in-out;
+  }
+
+  .ai-presenter { 
+    left: 20px !important;
+    bottom: 20px !important;
+    margin-left: 0 !important;
+    transform: none !important;
+    width: auto !important;
+    min-width: 0 !important;
+    align-items: flex-start !important;
+    pointer-events: none; /* prevents blocking clicks on mobile */
+  }
+  .ai-toggle-label { display: none; }
+}
+
+@media (max-width: 600px) {
+  .ai-presenter { 
+    left: 15px !important;
+    bottom: 15px !important;
+    margin-left: 0 !important;
+    width: auto !important;
+    min-width: 0 !important;
+    align-items: flex-start !important;
+  }   
+}
