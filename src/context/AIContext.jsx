@@ -71,13 +71,33 @@ export function AIProvider({ children }) {
 
   const pickVoice = () => {
     const vs = voicesRef.current;
-    const femaleNames = /zira|heera|heather|sonia|susan|hazel|emily|linda|samantha|karen|tessa|moira|fiona|victoria|female/i;
-    return (
-      vs.find(v => v.lang === 'en-IN' && femaleNames.test(v.name)) ||
-      vs.find(v => v.lang === 'en-IN') ||
-      vs.find(v => v.lang.startsWith('en') && femaleNames.test(v.name)) ||
-      vs.find(v => v.lang.startsWith('en'))
-    );
+    if (!vs || vs.length === 0) return null;
+
+    const femaleNames = /zira|heera|heather|sonia|susan|hazel|emily|linda|samantha|karen|tessa|moira|fiona|victoria|female|aria/i;
+
+    // 1. Prefer Google en-IN (available in Chrome on deployed sites)
+    const googleIN = vs.find(v => v.name === 'Google हिन्दी' || v.name === 'Google UK English Female' ||
+      (v.name.toLowerCase().includes('google') && v.lang === 'en-IN'));
+    if (googleIN) return googleIN;
+
+    // 2. Microsoft Heera / Aria (en-IN) — Windows local & Edge
+    const msIN = vs.find(v => v.lang === 'en-IN' && femaleNames.test(v.name));
+    if (msIN) return msIN;
+
+    // 3. Any en-IN voice
+    const anyIN = vs.find(v => v.lang === 'en-IN');
+    if (anyIN) return anyIN;
+
+    // 4. Google UK English Female (clear, widely available in Chrome)
+    const googleUK = vs.find(v => v.name === 'Google UK English Female');
+    if (googleUK) return googleUK;
+
+    // 5. Any English female voice
+    const enFemale = vs.find(v => v.lang.startsWith('en') && femaleNames.test(v.name));
+    if (enFemale) return enFemale;
+
+    // 6. Any English voice as last resort
+    return vs.find(v => v.lang.startsWith('en')) || null;
   };
 
   /* ── Speak a single segment and auto-scroll to its section ── */
@@ -140,8 +160,8 @@ export function AIProvider({ children }) {
     const u = new SpeechSynthesisUtterance(preprocessText(text));
     const voice = pickVoice();
     if (voice) u.voice = voice;
-    u.rate = 3.0;
-    u.pitch = 1.50;
+    u.rate = 1.05;  // Natural speed — consistent across all browsers & OS
+    u.pitch = 1.1;  // Slightly warm/feminine without being artificial
     u.volume = 1;
     u.onend = () => { if (activeRef.current) onDone(); };
     u.onerror = onDone;
@@ -223,7 +243,7 @@ export function AIProvider({ children }) {
       const u = new SpeechSynthesisUtterance(preprocessText(text));
       const voice = pickVoice();
       if (voice) u.voice = voice;
-      u.rate = 2.3; u.pitch = 1.25; u.volume = 1;
+      u.rate = 1.05; u.pitch = 1.1; u.volume = 1;  // Consistent natural speed across browsers
       u.onend = u.onerror = () => {
         activeRef.current = false;
         setIsSpeaking(false);
