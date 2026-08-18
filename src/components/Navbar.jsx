@@ -82,7 +82,7 @@ export default function Navbar() {
               <p className="resume-modal-sub">Senior QA Engineer · Resume 2026</p>
               <a
                 className="resume-download-btn"
-                href="/Monika_Bhivarkar_Resume_2026_Updated.pdf"
+                href="/Monika_Bhivarkar_Resume_2026.pdf"
                 download="Monika_Bhivarkar_Resume_2026.pdf"
               >
                 ⬇ Download Resume

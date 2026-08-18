@@ -168,7 +168,7 @@ export function AIProvider({ children }) {
 
     // Adjust rate for mobile to prevent distortion, keep pitch at 1.0 for natural human tone
     const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    u.rate = isMobile ? 1.3 : 1.7;
+    u.rate = isMobile ? 1.0 : 1.7;
     u.pitch = 1.0;
     u.volume = 1;
     u.onend = () => { if (activeRef.current) onDone(); };
@@ -261,7 +261,7 @@ export function AIProvider({ children }) {
       if (voice) u.voice = voice;
 
       const isMobile = /Android|webOS|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      u.rate = isMobile ? 1.3 : 1.7;
+      u.rate = isMobile ? 1.0 : 1.7;
       u.pitch = 1.0;
       u.volume = 1;
       u.onend = u.onerror = () => {
