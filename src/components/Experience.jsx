@@ -16,7 +16,7 @@ const experiences = [
       {
         globalProjId: 'proj-0',
         name: '🎓 Career Journey – Education Platform',
-        domain: 'EdTech | June 2024 – Present',
+        domain: 'EdTech | June 2024 – Oct 2025',
         points: [
           'Built and maintained Robot Framework automation suites, improving test stability from 70% to 90%.',
           'Designed end-to-end test strategy covering UI, API, and database layers for microservices architecture.',
@@ -29,7 +29,7 @@ const experiences = [
       {
         globalProjId: 'proj-1',
         name: '🎬 Oye Creators – Brand-Creator Collaboration Platform',
-        domain: 'Creator Economy / Influencer Marketing | June 2024 – Present',
+        domain: 'Creator Economy / Influencer Marketing | June 2024 – July 2026',
         points: [
           'Executed comprehensive QA across web, mobile app, and backend APIs for a brand-creator marketplace.',
           'Created and maintained detailed test cases from user stories for brand and creator personas.',

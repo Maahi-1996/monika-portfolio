@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAI } from '../context/AIContext';
-import { Volume2, VolumeX, Code2, Cpu, Wrench } from 'lucide-react';
+import { Volume2, VolumeX, Code2, Cpu, Wrench, Layers } from 'lucide-react';
 import './Skills.css';
 
 const skillCategories = [
@@ -8,22 +8,29 @@ const skillCategories = [
     globalSkillId: 'skill-0',
     title: "Test Automation",
     icon: <Code2 size={24} />,
-    skills: ["Selenium WebDriver", "Robot Framework", "TestNG", "Python", "Java"],
-    aiText: "In Test Automation, I use Selenium WebDriver, Robot Framework, and TestNG with Python and Java to build scalable and robust testing frameworks."
+    skills: ["Selenium WebDriver", "Robot Framework", "TestNG", "Page Object Model", "Maven", "Python", "Java"],
+    aiText: "In Test Automation, I use Selenium WebDriver, Robot Framework, and TestNG along with Page Object Model and Maven, using Python and Java to build scalable frameworks."
   },
   {
     globalSkillId: 'skill-1',
     title: "API & Database",
     icon: <Cpu size={24} />,
-    skills: ["Postman", "Insomnia", "Swagger", "REST APIs", "SQL", "MongoDB", "PostgreSQL"],
-    aiText: "For API and database testing, I am highly proficient with Postman, Insomnia, Swagger for API documentation and testing, and complex SQL queries across PostgreSQL and MongoDB."
+    skills: ["Postman", "REST Assured", "Swagger", "REST APIs", "JSON", "XML", "SQL", "MongoDB", "PostgreSQL", "Oracle"],
+    aiText: "For API and database testing, I use Postman, REST Assured, and Swagger for APIs, handling JSON and XML. For databases, I write complex SQL queries across PostgreSQL, MongoDB, and Oracle."
   },
   {
     globalSkillId: 'skill-2',
     title: "DevOps & Tools",
     icon: <Wrench size={24} />,
-    skills: ["Azure DevOps", "JIRA", "Git", "Kubernetes", "Linux"],
-    aiText: "My DevOps and tooling stack includes Azure DevOps, JIRA, Git, and foundational knowledge of Kubernetes and Linux environments."
+    skills: ["Azure DevOps", "CI/CD Pipelines", "JIRA", "Git", "Kubernetes", "Linux"],
+    aiText: "My DevOps and tooling stack includes Azure DevOps, continuous integration pipelines, JIRA, Git, Kubernetes, and Linux environments."
+  },
+  {
+    globalSkillId: 'skill-3',
+    title: "Testing Methodologies",
+    icon: <Layers size={24} />,
+    skills: ["Agile/Scrum", "SDLC & STLC", "BDD", "Functional & Regression", "End-to-End Testing", "API & Database Testing"],
+    aiText: "My testing approach is rooted in Agile and Scrum methodologies, covering the full SDLC and STLC using BDD. I have extensive experience in functional, regression, API, database, and end-to-end testing."
   }
 ];
 
@@ -63,3 +70,4 @@ export default function Skills() {
     </section>
   );
 }
+
